@@ -25,7 +25,7 @@ The role will be used to manage the lifecycle of the EKS cluster as well as act 
       "Version": "2012-10-17",
       "Statement": [
         {
-          "Sid": "EKSFullAccess",
+          "Sid": "KubeadminAccess",
           "Effect": "Allow",
           "Action": [
               "eks:*",
@@ -36,7 +36,7 @@ The role will be used to manage the lifecycle of the EKS cluster as well as act 
       ]
     }
     ```
-    Save the policy document as `eksfa.json` and execute:
+    Save the policy document as `kaa.json` and execute:
     ```bash
-    aws iam create-policy --policy-name "EKSFullAccess" --policy-document file://eksfa.json
+    aws iam create-policy --policy-name "KubeadminAccess" --policy-document file://kaa.json
     ```
