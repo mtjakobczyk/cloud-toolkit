@@ -64,3 +64,4 @@
     ```bash
     aws iam get-account-password-policy
     ```
+### Let IAM User work with AWS Systems Manager (Session Manager feature)
