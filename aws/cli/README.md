@@ -1,3 +1,7 @@
+#### AWS CLI "whoami"
+```
+aws sts get-caller-identity
+```
 
 #### Assuming Roles with MFA in AWS CLI
 **Scenario:**  
