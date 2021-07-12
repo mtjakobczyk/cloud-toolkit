@@ -68,7 +68,35 @@ The role will be used to manage the lifecycle of the EKS cluster as well as act 
     aws iam create-role --role-name "kubeadmin" --assume-role-policy-document file://trust.json
     ```
 3. Attach the IAM policy to the newly created IAM Role:
-    ```
+    ```bash
     ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
     aws iam attach-role-policy --role-name kubeadmin --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/KubeadminAccess
     ```
+    
+### Allow your devops squad to assume kubeadmin role
+Users must be granted a permission to switch role to `kubeadmin` Role.
+
+Create a **IAM policy** which defines which role can be assumed:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": {
+    "Sid": "AssumeKubeadminRole",
+    "Effect": "Allow",
+    "Action": "sts:AssumeRole",
+    "Resource": "arn:aws:iam::AWS_ACCOUNT:role/kubeadmin"
+  }
+}
+```
+Save the policy document as `ar.template.json` and replace the placeholder with your real account ID:
+```bash
+ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+sed "s/AWS_ACCOUNT/$ACCOUNT_ID/g" ar.template.json > ar.json
+aws iam create-policy --policy-name "AssumeKubeadminRole" --policy-document file://ar.json
+```
+Finally, attach the policy to the particular devops group:
+```bash
+GROUP_NAME=BemowoDevOpsSquad
+ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+aws iam attach-group-policy --group-name $GROUP_NAME --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/AssumeKubeadminRole
+```
