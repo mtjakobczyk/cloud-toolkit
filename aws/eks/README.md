@@ -1,5 +1,6 @@
 Dirty hands-on step by step instructions to run EKS.
 
+### 1. IAM
 It is assumed that the devops users are already created.  
 See: https://github.com/mtjakobczyk/cloud-toolkit/blob/main/aws/iam/README.md 
 
