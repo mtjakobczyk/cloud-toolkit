@@ -16,9 +16,36 @@ See more:
 - https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html
 - https://docs.aws.amazon.com/eks/latest/userguide/using-service-linked-roles.html
 
-#### Create a Role for Kubernetes admins
+#### Create a IAM Role for Kubernetes admins
 The role will be used to manage the lifecycle of the EKS cluster as well as act as cluster-internal admin (with `systems:masters` permissions).
-
+ 
+##### Trust Policy for the Role
+First, create a **trust policy** (aka assume role policy) which defines who can assume the role.  
+In oiur case, the principals assuming the role must have the `job` tag with `kube-admin` as value.
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Effect": "Allow",
+          "Principal": { "AWS": "arn:aws:iam::AWS_ACCOUNT:root" },
+          "Action": "sts:AssumeRole",
+          "Condition": {"StringEquals": {"aws:PrincipalTag/job": "kube-admin"}}
+      }
+  ]
+}
+```
+Save the policy document as `trust.template.json` and replace the placeholder with your real account ID: 
+```bash
+ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+sed "s/AWS_ACCOUNT/$ACCOUNT_ID/g" trust.template.json > trust.json
+```
+##### Role
+Create the role and pass the trust policy as the `--assume-role-policy-document`:
+```bash
+aws iam create-role --role-name "kubeadmin" --assume-role-policy-document file://trust.json
+```
+##### IAM Policy for the Role 
 Create a new customer-managed **IAM Policy** that allows full access to EKS and ECR
 ```json
 {
@@ -40,34 +67,6 @@ Save the policy document as `kaa.json` and execute:
 ```bash
 aws iam create-policy --policy-name "KubeadminAccess" --policy-document file://kaa.json
 ```
-    
-Create a new **IAM Role** for Kubernetes admins
-
-Create a **trust policy** (aka assume role policy) which defines who can assume the role.  
-The principals assuming the role must have the `job` tag with `kube-admin` as value.
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-      {
-          "Effect": "Allow",
-          "Principal": { "AWS": "arn:aws:iam::AWS_ACCOUNT:root" },
-          "Action": "sts:AssumeRole",
-          "Condition": {"StringEquals": {"aws:PrincipalTag/job": "kube-admin"}}
-      }
-  ]
-}
-```
-Save the policy document as `trust.template.json` and replace the placeholder with your real account ID: 
-```bash
-ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
-sed "s/AWS_ACCOUNT/$ACCOUNT_ID/g" trust.template.json > trust.json
-```
-Finally, create the role:
-```bash
-aws iam create-role --role-name "kubeadmin" --assume-role-policy-document file://trust.json
-```
-
 Attach the IAM policy to the newly created IAM Role:
 ```bash
 ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
