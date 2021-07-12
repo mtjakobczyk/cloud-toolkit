@@ -67,3 +67,7 @@ The role will be used to manage the lifecycle of the EKS cluster as well as act 
     ```bash
     aws iam create-role --role-name "kubeadmin" --assume-role-policy-document file://trust.json
     ```
+3. Attach the IAM policy to the newly created IAM Role:
+    ```
+    aws iam attach-role-policy --role-name kubeadmin --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/KubeadminAccess
+    ```
