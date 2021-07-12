@@ -33,11 +33,6 @@
     aws iam create-group --group-name $GROUP_NAME
     POLICIES=(
         'ManageOwnAccessKeys'
-        'AmazonEC2FullAccess' 
-        'AmazonS3FullAccess' 
-        'AmazonVPCFullAccess' 
-        'AWSCloudFormationFullAccess'
-        'IAMReadOnlyAccess' 
     )
     for policy in "${POLICIES[@]}";
     do
