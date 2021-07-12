@@ -71,9 +71,8 @@ aws iam create-policy --policy-name "KubeadminAccess" --policy-document file://k
 Attach the IAM policy to the newly created IAM Role:
 ```bash
 ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
-aws iam attach-role-policy --role-name kubeadmin --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/KubeadminAccess
-
 POLICIES=(
+    'KubeadminAccess'
     'AmazonEC2FullAccess' 
     'AmazonS3FullAccess' 
     'AmazonVPCFullAccess' 
@@ -84,7 +83,7 @@ for policy in "${POLICIES[@]}";
 do
     #ARN=$(aws iam list-policies --query "Policies[?PolicyName=='$policy'].Arn" --output text)
     ARN=arn:aws:iam::$ACCOUNT_ID:policy/$policy
-    aws iam attach-group-policy --group-name $GROUP_NAME --policy-arn $ARN
+    aws iam attach-role-policy --role-name kubeadmin --policy-arn $ARN
 done
 ```
     
