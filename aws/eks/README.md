@@ -69,5 +69,6 @@ The role will be used to manage the lifecycle of the EKS cluster as well as act 
     ```
 3. Attach the IAM policy to the newly created IAM Role:
     ```
+    ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
     aws iam attach-role-policy --role-name kubeadmin --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/KubeadminAccess
     ```
