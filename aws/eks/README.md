@@ -119,5 +119,5 @@ Finally, attach the policy to the particular devops group:
 ```bash
 GROUP_NAME=BemowoDevOpsSquad
 ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
-aws iam attach-group-policy --group-name $GROUP_NAME --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/AssumeKubeadminRole
+aws iam attach-group-policy --group-name $GROUP_NAME --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/AssumeKubeadminRole
 ```
