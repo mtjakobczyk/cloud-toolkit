@@ -36,8 +36,8 @@ aws iam create-role --role-name "kubeadmin" --assume-role-policy-document file:/
 ##### IAM Policies for the Role 
 Create a new customer-managed **IAM Policy** that allows actions required by `eksctl`.
 
-Save the following JSON as `EksAllAccess.template.json`:
-```json
+Create first IAM Policy (`EksAllAccess`) like this:
+```bash
 cat <<EOT >> EksAllAccess.template.json
 {
     "Version": "2012-10-17",
@@ -69,9 +69,15 @@ cat <<EOT >> EksAllAccess.template.json
     ]
 }
 EOT
+
+ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+
+sed "s/<account_id>/$ACCOUNT_ID/g" EksAllAccess.template.json > EksAllAccess.json
 ```
-Save the following JSON as `IamLimitedAccess.template.json`:
-```json
+
+Create second IAM Policy (`IamLimitedAccess`) like this:
+```bash
+cat <<EOT >> IamLimitedAccess.template.json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -135,12 +141,14 @@ Save the following JSON as `IamLimitedAccess.template.json`:
         }
     ]
 }
-```
-Render the two policy documents and execute:
-```bash
+EOT
+
 ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
-sed "s/<account_id>/$ACCOUNT_ID/g" EksAllAccess.template.json > EksAllAccess.json
+
 sed "s/<account_id>/$ACCOUNT_ID/g" IamLimitedAccess.template.json > IamLimitedAccess.json
+```
+Use the two policy documents and create the corresponding IAM Policies:
+```bash
 aws iam create-policy --policy-name "EksAllAccess" --policy-document file://EksAllAccess.json
 aws iam create-policy --policy-name "IamLimitedAccess" --policy-document file://IamLimitedAccess.json
 ```
