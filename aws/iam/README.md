@@ -1,6 +1,10 @@
 
 ### Prepare DevOps users
 
+Reference policies for user self-management:
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage.html
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-no-mfa.html
+
 1. Create a new customer-managed **IAM Policy** that allows managing own access keys
     ```json
     {
