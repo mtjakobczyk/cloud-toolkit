@@ -124,8 +124,13 @@ aws iam attach-group-policy --group-name $GROUP_NAME --policy-arn arn:aws:iam::$
 ```
 
 ### 2. VPC for EKS
-
+The [CloudFormation template](./vpc.yaml) defines the VPC resources for EKS worker nodes.
 ```bash
-VPC_CF=https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
-aws cloudformation create-stack --region us-west-2 --stack-name jc-eks-vpc-stack --template-url $VPC_CF
+aws cloudformation create-stack --region eu-west-1 --stack-name eks-vpc-stack --template-body file://vpc.yaml
+aws cloudformation wait stack-create-complete --stack-name eks-vpc-stack
+```
+Another [CloudFormation template](./eks.yaml) defines the EKS resources and its corresponding node group.
+```bash
+aws cloudformation create-stack --region eu-west-1 --stack-name eks-stack --template-body file://eks.yaml
+aws cloudformation wait stack-create-complete --stack-name eks-stack
 ```
