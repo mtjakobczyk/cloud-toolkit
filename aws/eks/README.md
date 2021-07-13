@@ -34,73 +34,121 @@ Create the role and pass the trust policy as the `--assume-role-policy-document`
 aws iam create-role --role-name "kubeadmin" --assume-role-policy-document file://trust.json
 ```
 ##### IAM Policies for the Role 
-Create a new customer-managed **IAM Policy** that allows full access to EKS and ECR
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "KubeadminAccess",
-      "Effect": "Allow",
-      "Action": [
-          "eks:*",
-          "ecr:*"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-```
-Save the policy document as `kaa.json` and execute:
-```bash
-aws iam create-policy --policy-name "KubeadminAccess" --policy-document file://kaa.json
-```
+Create a new customer-managed **IAM Policy** that allows actions required by `eksctl`.
 
-Create a new customer-managed **IAM Policy** that allows **TODO: Explain**
+Save the following JSON as `EksAllAccess.template.json`:
 ```json
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "KubeadminPassRole",
-      "Effect": "Allow",
-      "Action": [
-        "ssm:GetParameter",
-        "iam:PassRole",
-        "iam:CreateServiceLinkedRole",
-        "iam:CreateRole",
-        "iam:DeleteRole",
-        "iam:AttachRolePolicy",
-        "iam:DetachRolePolicy",
-        "iam:PutRolePolicy",
-        "iam:DeleteRolePolicy",
-        "iam:CreateInstanceProfile",
-        "iam:CreateOpenIDConnectProvider",
-        "iam:DeleteOpenIDConnectProvider"
-      ],
-      "Resource": [
-        "arn:aws:iam::AWS_ACCOUNT:role/*",
-        "arn:aws:iam::AWS_ACCOUNT:oidc-provider/oidc.eks.eu-west-1.amazonaws.com",
-        "arn:aws:iam::AWS_ACCOUNT:oidc-provider/oidc.eks.eu-west-1.amazonaws.com/*",
-        "arn:aws:ssm:*"
-      ]
-    }
-  ]
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "eks:*",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "ssm:GetParameter",
+                "ssm:GetParameters"
+            ],
+            "Resource": [
+                "arn:aws:ssm:*:<account_id>:parameter/aws/*",
+                "arn:aws:ssm:*::parameter/aws/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+             "Action": [
+               "kms:CreateGrant",
+               "kms:DescribeKey"
+             ],
+             "Resource": "*",
+             "Effect": "Allow"
+        }
+    ]
 }
 ```
-Save the policy document as `kapr.template.json` and execute:
+Save the following JSON as `IamLimitedAccess.template.json`:
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateInstanceProfile",
+                "iam:DeleteInstanceProfile",
+                "iam:GetInstanceProfile",
+                "iam:RemoveRoleFromInstanceProfile",
+                "iam:GetRole",
+                "iam:CreateRole",
+                "iam:DeleteRole",
+                "iam:AttachRolePolicy",
+                "iam:PutRolePolicy",
+                "iam:ListInstanceProfiles",
+                "iam:AddRoleToInstanceProfile",
+                "iam:ListInstanceProfilesForRole",
+                "iam:PassRole",
+                "iam:DetachRolePolicy",
+                "iam:DeleteRolePolicy",
+                "iam:GetRolePolicy",
+                "iam:GetOpenIDConnectProvider",
+                "iam:CreateOpenIDConnectProvider",
+                "iam:DeleteOpenIDConnectProvider",
+                "iam:ListAttachedRolePolicies",
+                "iam:TagRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::<account_id>:instance-profile/eksctl-*",
+                "arn:aws:iam::<account_id>:role/eksctl-*",
+                "arn:aws:iam::<account_id>:oidc-provider/*",
+                "arn:aws:iam::<account_id>:role/aws-service-role/eks-nodegroup.amazonaws.com/AWSServiceRoleForAmazonEKSNodegroup",
+                "arn:aws:iam::<account_id>:role/eksctl-managed-*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::<account_id>:role/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateServiceLinkedRole"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "iam:AWSServiceName": [
+                        "eks.amazonaws.com",
+                        "eks-nodegroup.amazonaws.com",
+                        "eks-fargate.amazonaws.com"
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+Render the two policy documents and execute:
 ```bash
 ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
-sed "s/AWS_ACCOUNT/$ACCOUNT_ID/g" kapr.template.json > kapr.json
-aws iam create-policy --policy-name "KubeadminPassRole" --policy-document file://kapr.json
+sed "s/<account_id>/$ACCOUNT_ID/g" EksAllAccess.template.json > EksAllAccess.json
+sed "s/<account_id>/$ACCOUNT_ID/g" IamLimitedAccess.template.json > IamLimitedAccess.json
+aws iam create-policy --policy-name "EksAllAccess" --policy-document file://EksAllAccess.json
+aws iam create-policy --policy-name "IamLimitedAccess" --policy-document file://IamLimitedAccess.json
 ```
 
 Attach the IAM policies to the newly created IAM Role:
 ```bash
 ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 POLICIES=(
-    'KubeadminAccess',
-    'KubeadminPassRole'
+    'EksAllAccess',
+    'IamLimitedAccess'
 )
 for policy in "${POLICIES[@]}";
 do
