@@ -157,7 +157,7 @@ Attach the IAM policies to the newly created IAM Role:
 ```bash
 ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 POLICIES=(
-    'EksAllAccess',
+    'EksAllAccess'
     'IamLimitedAccess'
 )
 for policy in "${POLICIES[@]}";
