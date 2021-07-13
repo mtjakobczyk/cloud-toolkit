@@ -38,6 +38,7 @@ Create a new customer-managed **IAM Policy** that allows actions required by `ek
 
 Save the following JSON as `EksAllAccess.template.json`:
 ```json
+cat <<EOT >> EksAllAccess.template.json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -67,6 +68,7 @@ Save the following JSON as `EksAllAccess.template.json`:
         }
     ]
 }
+EOT
 ```
 Save the following JSON as `IamLimitedAccess.template.json`:
 ```json
