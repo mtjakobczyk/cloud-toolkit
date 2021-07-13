@@ -261,7 +261,21 @@ nodeGroups:
     maxSize: 4
     volumeSize: 20
 ```
-Create cluster and node group:
+
+`eksctl` somehow does not reuse AWS_PROFILE that defines AssumeRole operation. Because of that we need to assumeRole using CLI and set the relevant token-holding variables command like this:
+```bash
+ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+ROLE="arn:aws:iam::${ACCOUNT_ID}:role/kubeadmin"
+DELIMITER="/"
+DEVOPS_USER_ARN=$(aws sts get-caller-identity --query 'Arn' --output text)
+ROLE_SESSION_NAME=${DEVOPS_USER_ARN#*$DELIMITER}
+CRED=$(aws --output=json sts assume-role --role-arn $ROLE --role-session-name $ROLE_SESSION_NAME)
+
+export AWS_ACCESS_KEY_ID=$(echo ${CRED} | jq -r ".Credentials.AccessKeyId")
+export AWS_SECRET_ACCESS_KEY=$(echo ${CRED} | jq -r ".Credentials.SecretAccessKey")
+export AWS_SESSION_TOKEN=$(echo ${CRED} | jq -r ".Credentials.SessionToken")
+```
+Finally we can create the cluster:
 ```bash
 eksctl create cluster -f ajcd2.eks.yaml
 ```
