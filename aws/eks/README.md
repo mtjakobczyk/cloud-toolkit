@@ -186,16 +186,24 @@ Create a role and attach a managed IAM policy (`AmazonEKSClusterPolicy`):
 aws iam create-role --role-name "eksclusterrole" --assume-role-policy-document file://eks.trust-policy.json
 aws iam attach-role-policy --role-name eksclusterrole --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
 ```
+### 3. EKS (eksctl)
+Prepare configuration as `ajcd2.eks.yaml` file:
+```yaml
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
 
+metadata:
+  name: ajcd2
+  region: eu-west-1
 
-### 3. VPC for EKS
-The [CloudFormation template](./vpc.yaml) defines the VPC resources for EKS worker nodes.
-```bash
-aws cloudformation create-stack --region eu-west-1 --stack-name eks-vpc-stack --template-body file://vpc.yaml
-aws cloudformation wait stack-create-complete --stack-name eks-vpc-stack
+nodeGroups:
+  - name: ng-1
+    instanceType: m5.large
+    desiredCapacity: 2
+    maxSize: 4
+    volumeSize: 20
 ```
-Another [CloudFormation template](./eks.yaml) defines the EKS resources and its corresponding node group.
+Create cluster and node group:
 ```bash
-aws cloudformation create-stack --region eu-west-1 --stack-name eks-stack --template-body file://eks.yaml
-aws cloudformation wait stack-create-complete --stack-name eks-stack
+eksctl create cluster -f ajcd2.eks.yaml
 ```
