@@ -85,6 +85,7 @@ AWS_POLICIES=(
     'AmazonS3FullAccess' 
     'AmazonVPCFullAccess' 
     'AWSCloudFormationFullAccess'
+    'AmazonSNSReadOnlyAccess'
     'IAMReadOnlyAccess' 
 )
 for policy in "${AWS_POLICIES[@]}";
@@ -120,4 +121,11 @@ Finally, attach the policy to the particular devops group:
 GROUP_NAME=BemowoDevOpsSquad
 ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 aws iam attach-group-policy --group-name $GROUP_NAME --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/AssumeKubeadminRole
+```
+
+### 2. VPC for EKS
+
+```bash
+VPC_CF=https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
+aws cloudformation create-stack --region us-west-2 --stack-name jc-eks-vpc-stack --template-url $VPC_CF
 ```
