@@ -1,21 +1,8 @@
 Dirty hands-on step by step instructions to run EKS.
 
-### 1. IAM
+### 1. IAM (Kubeadmins)
 It is assumed that the devops users are already created.  
 See: https://github.com/mtjakobczyk/cloud-toolkit/blob/main/aws/iam/README.md 
-
-#### Allow AWS EKS to manage other AWS services
-EKS has to manage selected AWS services (EC2 instances, ...) to perform its duties.
-
-Allow AWS EKS Service to manage other AWS services by creating two predefined service-linked roles:
-```bash
-aws iam create-service-linked-role --aws-service-name eks.amazonaws.com
-aws iam create-service-linked-role --aws-service-name eks-nodegroup.amazonaws.com
-```
-See more:
-- https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html
-- https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html
-- https://docs.aws.amazon.com/eks/latest/userguide/using-service-linked-roles.html
 
 #### Create a IAM Role for Kubernetes admins
 The role will be used to manage the lifecycle of the EKS cluster as well as act as cluster-internal admin (with `systems:masters` permissions).
@@ -123,7 +110,44 @@ ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 aws iam attach-group-policy --group-name $GROUP_NAME --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/AssumeKubeadminRole
 ```
 
-### 2. VPC for EKS
+### 2. IAM (EKS Service)
+
+#### Allow AWS EKS to manage other AWS services
+EKS has to manage selected AWS services (EC2 instances, ...) to perform its duties.
+
+Allow AWS EKS Service to manage other AWS services by creating two predefined service-linked roles:
+```bash
+aws iam create-service-linked-role --aws-service-name eks.amazonaws.com
+aws iam create-service-linked-role --aws-service-name eks-nodegroup.amazonaws.com
+```
+See more:
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html
+- https://docs.aws.amazon.com/eks/latest/userguide/using-service-linked-roles.html
+
+Create a **trust policy** (aka assume role policy) as `eks.trust-policy.json`.  
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+```
+Create a role and attach a managed IAM policy (`AmazonEKSClusterPolicy`):
+```bash
+aws iam create-role --role-name "eksclusterrole" --assume-role-policy-document file://eks.trust-policy.json
+aws iam attach-role-policy --role-name eksclusterrole --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+```
+
+
+### 3. VPC for EKS
 The [CloudFormation template](./vpc.yaml) defines the VPC resources for EKS worker nodes.
 ```bash
 aws cloudformation create-stack --region eu-west-1 --stack-name eks-vpc-stack --template-body file://vpc.yaml
