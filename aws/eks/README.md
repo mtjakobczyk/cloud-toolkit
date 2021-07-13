@@ -33,7 +33,7 @@ Create the role and pass the trust policy as the `--assume-role-policy-document`
 ```bash
 aws iam create-role --role-name "kubeadmin" --assume-role-policy-document file://trust.json
 ```
-##### IAM Policy for the Role 
+##### IAM Policies for the Role 
 Create a new customer-managed **IAM Policy** that allows full access to EKS and ECR
 ```json
 {
@@ -55,11 +55,52 @@ Save the policy document as `kaa.json` and execute:
 ```bash
 aws iam create-policy --policy-name "KubeadminAccess" --policy-document file://kaa.json
 ```
-Attach the IAM policy to the newly created IAM Role:
+
+Create a new customer-managed **IAM Policy** that allows **TODO: Explain**
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "KubeadminPassRole",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter",
+        "iam:PassRole",
+        "iam:CreateServiceLinkedRole",
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:PutRolePolicy",
+        "iam:DeleteRolePolicy",
+        "iam:CreateInstanceProfile",
+        "iam:CreateOpenIDConnectProvider",
+        "iam:DeleteOpenIDConnectProvider"
+      ],
+      "Resource": [
+        "arn:aws:iam::AWS_ACCOUNT:role/*",
+        "arn:aws:iam::AWS_ACCOUNT:oidc-provider/oidc.eks.eu-west-1.amazonaws.com",
+        "arn:aws:iam::AWS_ACCOUNT:oidc-provider/oidc.eks.eu-west-1.amazonaws.com/*",
+        "arn:aws:ssm:*"
+      ]
+    }
+  ]
+}
+```
+Save the policy document as `kapr.template.json` and execute:
+```bash
+ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+sed "s/AWS_ACCOUNT/$ACCOUNT_ID/g" kapr.template.json > kapr.json
+aws iam create-policy --policy-name "KubeadminPassRole" --policy-document file://kapr.json
+```
+
+Attach the IAM policies to the newly created IAM Role:
 ```bash
 ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 POLICIES=(
-    'KubeadminAccess' 
+    'KubeadminAccess',
+    'KubeadminPassRole'
 )
 for policy in "${POLICIES[@]}";
 do
