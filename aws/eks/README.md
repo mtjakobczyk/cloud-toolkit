@@ -264,6 +264,10 @@ nodeGroups:
 
 `eksctl` somehow does not reuse AWS_PROFILE that defines AssumeRole operation. Because of that we need to assumeRole using CLI and set the relevant token-holding variables command like this:
 ```bash
+unset AWS_ACCESS_KEY_ID
+unset AWS_SECRET_ACCESS_KEY
+unset AWS_SESSION_TOKEN
+
 ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 ROLE="arn:aws:iam::${ACCOUNT_ID}:role/kubeadmin"
 DELIMITER="/"
