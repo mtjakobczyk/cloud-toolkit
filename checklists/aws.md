@@ -8,7 +8,6 @@
     - spot instance interruption
     - spot blocks
     - spot fleets ( + strategies )
-  - dedicated instances
   - dedicated hosts
 
 - vNIC types
@@ -17,6 +16,17 @@
     - Elastic Network Adapter 
     - Intel Virtual Function Interface
   - Elastic Fabric Adapter (EFA)
+
+### Elastic Load Balancing
+
+- Load Balancer Types
+  - Application Load Balancer (intelligent routing - L7)
+     - Listeners, Rules, Target Groups, Health Checks
+  - Network Load Balancer (fast routing - L4)
+  - Classic Load Balancer (legacy, `X-Forwarded-For`)
+- Sticky Sessions
+- Deregistration Delay
+
 
 ### CloudFormation
 - Template anatomy
