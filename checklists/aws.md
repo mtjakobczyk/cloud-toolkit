@@ -37,3 +37,9 @@
 - AWS::EC2::Instance - UserData property
 - CloudFormation Helper Scripts
 - ChangeSets
+
+
+### RDS
+- DB engine types
+- Multi-AZ, Read replicas
+- Subnet Groups
