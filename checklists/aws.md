@@ -17,7 +17,7 @@
   - Elastic Fabric Adapter (EFA)
 - Launch Templates (and Launch Configurations)
 - Auto Scaling Groups (ASGs)
- - ASG Policies
+  - ASG Policies
 
 
 ### Elastic Load Balancing
