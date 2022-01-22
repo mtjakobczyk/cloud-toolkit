@@ -9,13 +9,16 @@
     - spot blocks
     - spot fleets ( + strategies )
   - dedicated hosts
-
 - vNIC types
   - Elastic Network Interface
   - Enhanced Networking (EN) 
     - Elastic Network Adapter 
     - Intel Virtual Function Interface
   - Elastic Fabric Adapter (EFA)
+- Launch Templates (and Launch Configurations)
+- Auto Scaling Groups (ASGs)
+ - ASG Policies
+
 
 ### Elastic Load Balancing
 
@@ -43,3 +46,4 @@
 - DB engine types
 - Multi-AZ, Read replicas
 - Subnet Groups
+- Scaling
