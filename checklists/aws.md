@@ -12,12 +12,16 @@
     - spot blocks
     - spot fleets ( + strategies )
   - dedicated hosts
+- Launching an instance
+  - Instance Metadata
+  - User Data
 - vNIC types
-  - Elastic Network Interface
+  - Elastic Network Interface (ENI)
   - Enhanced Networking (EN) 
     - Elastic Network Adapter 
     - Intel Virtual Function Interface
   - Elastic Fabric Adapter (EFA)
+- EC2 Placement Groups (Cluster, Partition, Spread)
 - Launch Templates (and Launch Configurations)
 - Auto Scaling Groups (ASGs)
   - ASG Policies
