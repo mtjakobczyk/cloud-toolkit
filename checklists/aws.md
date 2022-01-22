@@ -1,8 +1,11 @@
 ### EC2
 
+- Instance Types
 - Instance purchasing options
   - on-demand instances
   - reserved instances
+    - convertible RIs 
+    - scheduled instances
   - spot instances
     - spot instance requests (one-time or persistent)
     - spot instance interruption
