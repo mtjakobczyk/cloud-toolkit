@@ -6,6 +6,7 @@
   - reserved instances
     - convertible RIs 
     - scheduled instances
+  - savings plans
   - spot instances
     - spot instance requests (one-time or persistent)
     - spot instance interruption
