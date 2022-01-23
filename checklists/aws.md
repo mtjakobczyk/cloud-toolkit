@@ -36,6 +36,24 @@
   - EBS vs Instance Store
 - AWS Nackup
 
+## S3
+- Object Names
+- Metadata
+- Charges
+- Consistency
+- Storage Classes
+- Lifecycle Management
+- Object ACLs vs Bucket Policy
+- Versioning
+- S3 Select
+- Object Locks
+  - Governance and Compliance Modes
+  - Retention Periods, Legal Holds
+- Encryption
+- Prefixes
+- Multipart Uploads and Byte-Range Fetches
+- Replication
+
 ## EFS
 - Storage Tiers
 - EFS vs FSx
@@ -49,7 +67,6 @@
 - Sticky Sessions
 - Deregistration Delay
 
-
 ## CloudFormation
 - Template anatomy
 - Input Parameters ( + aws-specific parameter types )
@@ -59,7 +76,6 @@
 - AWS::EC2::Instance - UserData property
 - CloudFormation Helper Scripts
 - ChangeSets
-
 
 ## Databases
 ### RDS
@@ -103,3 +119,11 @@
 ## SNS (push-based messaging)
 
 ## API Gateway
+
+## Elastic Beanstalk (Application PaaS)
+
+## Systems Manager
+- Managed EC2 Instances
+- Parameter Store
+- Session Manager
+- Automation Documents
