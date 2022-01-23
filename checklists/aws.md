@@ -164,3 +164,16 @@
 - Default CloudWatch Period (60 seconds)
 - CloudWatch Alarms
 - CloudWatch Logs
+
+## Big Data
+### Redshift
+### Elastic Map Reduce (EMR)
+### Kinesis
+- Data Streams vs Data Firehose
+- Data Analytics
+- Kinesis vs SQS
+### Athena
+### Glue
+- Using Glue, Athena and QuickSight to build simple Datalake
+### Quicksight
+### Elasticsearch
