@@ -92,3 +92,14 @@
 - Transactions
 - Backups
 
+## SQS (poll-based messaging)
+- Settings
+  - Visibility Timeout
+ - Queue Types
+   - Standard
+   - FIFO
+- Dead-letter queue
+
+## SNS (push-based messaging)
+
+## API Gateway
