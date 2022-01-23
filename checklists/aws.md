@@ -58,6 +58,36 @@
 - Storage Tiers
 - EFS vs FSx
 
+## VPC
+- Default VPC
+- NAT Gateways
+- Security Groups and NACLs
+- VPC Endpoints
+- VPC Peering
+- PrivateLink
+- AWS CloudHub
+- Direct Connect
+- Transit Gateway
+- VPC Flow Logs
+
+## DNS
+- Registering a domain
+- Record Types
+  - CNAME vs alias
+  - SOA
+  - NS
+  - CNAME
+- TTL
+- Health Checks for Routing Policies
+- Routing Policies
+  - Simple Routing
+  - Multivalue Answer
+  - Weighted Routing
+  - Failover Routing
+  - Geolocation Routing
+  - Latency Routing
+  - Geoproximity Routing (using Traffic Flow)
+
 ## Elastic Load Balancing
 - Load Balancer Types
   - Application Load Balancer (intelligent routing - L7)
