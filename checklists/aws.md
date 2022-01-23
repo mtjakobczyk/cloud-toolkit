@@ -29,7 +29,6 @@
 
 
 ### Elastic Load Balancing
-
 - Load Balancer Types
   - Application Load Balancer (intelligent routing - L7)
      - Listeners, Rules, Target Groups, Health Checks
@@ -50,8 +49,34 @@
 - ChangeSets
 
 
-### RDS
+### Databases
+#### RDS
 - DB engine types
-- Multi-AZ, Read replicas
-- Subnet Groups
-- Scaling
+- Provisioning
+  - Subnet Groups
+  - DB Parameter Groups
+- Pricing
+- Multi-AZ
+- Read replicas
+- RDS Scaling
+- Backups
+  - Automated backups
+  - Manual Snapshots
+  - Restoring Backup
+- Upgrades
+- RDS Security
+- Monitoring
+  - CloudWatch
+  - Enhanced Monitoring
+  - Performance Insights
+- Aurora
+- Aurora Serverless
+
+#### DynamoDB
+- DynamoDB Characteristics
+  - Consistency
+  - Provisioned vs On-Demand
+- DAX
+- Transactions
+- Backups
+
