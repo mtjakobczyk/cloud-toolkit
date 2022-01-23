@@ -1,5 +1,4 @@
-### EC2
-
+## EC2
 - Instance Types
 - Instance purchasing options
   - on-demand instances
@@ -27,8 +26,21 @@
 - Auto Scaling Groups (ASGs)
   - ASG Policies
 
+## EBS
+- IOPS vs Throughput
+- Volume Types (SSD and HDD)
+- Snapshots
+- Encryption
+- EC2 Hibernation
+- EC2 AMIs
+  - EBS vs Instance Store
+- AWS Nackup
 
-### Elastic Load Balancing
+## EFS
+- Storage Tiers
+- EFS vs FSx
+
+## Elastic Load Balancing
 - Load Balancer Types
   - Application Load Balancer (intelligent routing - L7)
      - Listeners, Rules, Target Groups, Health Checks
@@ -38,7 +50,7 @@
 - Deregistration Delay
 
 
-### CloudFormation
+## CloudFormation
 - Template anatomy
 - Input Parameters ( + aws-specific parameter types )
 - Intrinsic functions
@@ -49,8 +61,8 @@
 - ChangeSets
 
 
-### Databases
-#### RDS
+## Databases
+### RDS
 - DB engine types
 - Provisioning
   - Subnet Groups
@@ -72,7 +84,7 @@
 - Aurora
 - Aurora Serverless
 
-#### DynamoDB
+### DynamoDB
 - DynamoDB Characteristics
   - Consistency
   - Provisioned vs On-Demand
