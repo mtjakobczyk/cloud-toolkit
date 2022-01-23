@@ -157,3 +157,10 @@
 - Parameter Store
 - Session Manager
 - Automation Documents
+
+## Monitoring
+### CloudWatch
+- Default Metrics vs Custom Metrics
+- Default CloudWatch Period (60 seconds)
+- CloudWatch Alarms
+- CloudWatch Logs
