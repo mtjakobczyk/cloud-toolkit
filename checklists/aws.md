@@ -199,6 +199,7 @@
 ### Lambda
 - Runtime, Permissions, Networking, Resources, Trigger
 - Execution Limits
+- Layers
 
 ## Containers
 - ECS vs EKS
