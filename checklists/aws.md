@@ -164,6 +164,7 @@
 - Default CloudWatch Period (60 seconds)
 - CloudWatch Alarms
 - CloudWatch Logs
+- EventBridge (aka CloudWatch Events)
 
 ## Big Data
 ### Redshift
@@ -188,3 +189,6 @@
 ### ECS
 - Task Definition
 - Cluster
+### Fargate
+- EC2 vs Fargate
+- Fargate vs Lambda
