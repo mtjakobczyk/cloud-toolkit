@@ -177,3 +177,14 @@
 - Using Glue, Athena and QuickSight to build simple Datalake
 ### Quicksight
 ### Elasticsearch
+
+## Serverless
+### Lambda
+- Runtime, Permissions, Networking, Resources, Trigger
+- Execution Limits
+
+## Containers
+- ECS vs EKS
+### ECS
+- Task Definition
+- Cluster
