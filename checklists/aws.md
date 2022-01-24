@@ -1,3 +1,15 @@
+## IAM
+- ARN
+- Root User
+- IAM Users and Groups
+- IAM Roles
+  - Assuming Role
+- IAM Policies
+  - Permission Boundaries
+  - AWS Organizations SCPs
+  - Session Policy
+- Tags
+
 ## EC2
 - Instance Types
 - Instance purchasing options
@@ -53,6 +65,8 @@
 - Prefixes
 - Multipart Uploads and Byte-Range Fetches
 - Replication
+- Presigned URLs
+- Presigned Cookies
 
 ## EFS
 - Storage Tiers
@@ -96,6 +110,8 @@
   - Classic Load Balancer (legacy, `X-Forwarded-For`)
 - Sticky Sessions
 - Deregistration Delay
+
+## AWS Certificate Manager (ACN)
 
 ## CloudFormation
 - Template anatomy
@@ -189,6 +205,33 @@
 ### ECS
 - Task Definition
 - Cluster
+### EKS
 ### Fargate
 - EC2 vs Fargate
 - Fargate vs Lambda
+
+## Security
+### DDOS Attacks
+- Layer 4 vs Layer 7
+### CloudTrail
+### AWS Shield
+- AWS Shield Advanced
+### AWS WAF
+- 3 WAF-allowed behaviours
+- Conditions to evaluate web requests
+### GuardDuty
+### Macie
+### Inspector
+- Assessment Types
+- Inspector agents
+
+## KMS
+- CMK
+- HSM
+- Rotation
+- Key Policies
+- CloudHSM
+
+## Secrets Manager
+- Rotation and Credentials
+- Secrets Manager vs SSM Parameter Store
