@@ -258,3 +258,5 @@
 - AWS Cost Explorer
 - AWS Budgets
 - Trusted Advisor
+- Resource Groups
+  - Tag Editor
