@@ -265,12 +265,12 @@
 ### Snow Familiy
 - Snowcone, Snowball Edge, Snowmobile
 - Storage Gateway
-  - File Gateway
-  - Volume Gateway
-  - Tape Gateway
+   - File Gateway
+   - Volume Gateway
+   - Tape Gateway
  - DataSync
-  - DataSync vs Storage Gateway
+   - DataSync vs Storage Gateway
  - AWS Transfer Family
  - Migration Hub
-  - Server Migration Service
-  - Database Migration Service
+   - Server Migration Service
+   - Database Migration Service
