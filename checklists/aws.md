@@ -244,3 +244,17 @@
 ### DAX
 ### Global Accelerator
 - Provisioning
+
+## Governance
+- AWS Organisations
+  - SCPs
+- AWS RAM
+  - How does it work?
+  - AWS RAM vs VPC Peering
+- Cross-account Role Access
+- AWS Config
+- AWS Directory Service
+  - Types
+- AWS Cost Explorer
+- AWS Budgets
+- Trusted Advisor
