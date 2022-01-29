@@ -260,3 +260,17 @@
 - Trusted Advisor
 - Resource Groups
   - Tag Editor
+
+## Migration
+### Snow Familiy
+- Snowcone, Snowball Edge, Snowmobile
+- Storage Gateway
+  - File Gateway
+  - Volume Gateway
+  - Tape Gateway
+ - DataSync
+  - DataSync vs Storage Gateway
+ - AWS Transfer Family
+ - Migration Hub
+  - Server Migration Service
+  - Database Migration Service
