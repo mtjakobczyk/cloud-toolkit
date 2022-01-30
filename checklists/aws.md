@@ -37,6 +37,7 @@
 - Launch Templates (and Launch Configurations)
 - Auto Scaling Groups (ASGs)
   - ASG Policies
+  - Default Termination Policy
 
 ## EBS
 - IOPS vs Throughput
