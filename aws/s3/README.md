@@ -29,3 +29,16 @@
         echo "####################";
       fi
     done
+
+### Set the strictest Public Access Block configuration where it is missing
+
+    for bn in $(aws s3api list-buckets --output text --query Buckets[].Name); 
+    do 
+      aws s3api get-public-access-block --bucket $bn > /dev/null 2>&1;
+      if [ "$?" -ne 0 ]; then
+        echo "BUCKET: $bn";
+        aws s3api put-public-access-block --bucket $bn --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
+      fi
+    done
+
+    
