@@ -3,6 +3,11 @@
 aws sts get-caller-identity
 ```
 
+#### Select current AWS Account ID
+```
+aws sts get-caller-identity --query "Account" --output text
+```
+
 #### Assuming Roles with MFA in AWS CLI
 **Scenario:**  
 You have an IAM User who can assume roles in another AWS tenancy.  
