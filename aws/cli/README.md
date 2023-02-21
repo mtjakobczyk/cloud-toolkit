@@ -71,4 +71,13 @@ provider "aws" {
   region = var.aws_region
 }
 ```
+#### Assuming Roles
+```bash
+ROLE="replace-me"
+ROLE_SESSION_NAME="replace-me"
+CRED=$(aws --output=json sts assume-role --role-arn $ROLE --role-session-name $ROLE_SESSION_NAME)
 
+export AWS_ACCESS_KEY_ID=$(echo ${CRED} | jq -r ".Credentials.AccessKeyId")
+export AWS_SECRET_ACCESS_KEY=$(echo ${CRED} | jq -r ".Credentials.SecretAccessKey")
+export AWS_SESSION_TOKEN=$(echo ${CRED} | jq -r ".Credentials.SessionToken")
+```
